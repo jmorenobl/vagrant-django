@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-if [ -z $PROJECT_NAME ]; then
-  PROJECT_NAME="project"
+if [ -z $1 ]; then
+  PROJECT_NAME="myproject"
+else
+  PROJECT_NAME=$1
 fi
 
 # Install basic packages
@@ -24,14 +26,16 @@ echo "
 export WORKON_HOME=/home/vagrant/.virtualenvs
 export PROJECT_HOME=/vagrant
 source /usr/local/bin/virtualenvwrapper.sh
+
+workon project
 " >> /home/vagrant/.bashrc
 
 # Setup virtualenv
-mkproject src
+mkproject project
 
 # Install basic project packages inside the virtualenv
 pip install MySQL-python Pillow django
 
 # Set up a Django project (TODO)
-django-admin.py startproject --template=https://github.com/twoscoops/django-twoscoops-project/archive/master.zip --extension=py,rst,html $PROJECT_NAME /vagrant/src
-pip install -r /vagrant/src/requirements/local.txt
+django-admin.py startproject --template=https://github.com/twoscoops/django-twoscoops-project/archive/master.zip --extension=py,rst,html $PROJECT_NAME /vagrant/project
+pip install -r /vagrant/project/requirements/local.txt

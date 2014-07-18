@@ -122,5 +122,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #   chef.validation_client_name = "ORGNAME-validator"
 
   # Enable provisioning with bash
-  config.vm.provision :shell, path: "bootstrap.sh"
+  # config.vm.provision :shell, path: "provision.sh"
+  config.vm.provision "shell" do |s|
+    s.path = "provision.sh"
+    s.args   = "#{ENV['PROJECT_NAME']}"
+  end
 end
